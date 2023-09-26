@@ -10,6 +10,6 @@
 
 | Участник | GitHub | Pull request |
 | ------ | ------ | ------ |
-| Шашурин Егор | [https://github.com/Wintori](Wintori) | [https://github.com/goodwinuser/computer_graph/pull/1][Pr] |
+| Шашурин Егор | (https://github.com/Wintori)[Wintori] | [https://github.com/goodwinuser/computer_graph/pull/1][Pr] |
 | Семен | - | - |
 | Мурашко Егор | - | - |
