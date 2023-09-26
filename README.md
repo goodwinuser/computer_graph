@@ -8,11 +8,8 @@
 
 ## Конмада
 
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
-
 | Участник | GitHub | Pull request |
-| ------ | ------ |
-| Шашурин Егор | [https://github.com/Wintori][Wintori] | https://github.com/goodwinuser/computer_graph/pull/1 |
-| Семен | [plugins/github/README.md][PlGh] | |
-| Мурашко Егор | [plugins/googledrive/README.md][PlGd] | |
+| ------ | ------ | ------ |
+| Шашурин Егор | [https://github.com/Wintori][Wintori] | [https://github.com/goodwinuser/computer_graph/pull/1][Pr] |
+| Семен | [plugins/github/README.md][PlGh] | - |
+| Мурашко Егор | [plugins/googledrive/README.md][PlGd] | - |
