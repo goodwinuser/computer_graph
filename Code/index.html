@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSV формат</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <input type="file" id="imageInput" accept="image/*">
+    <div id="Container">
+        <canvas id="originalCanvas"></canvas>
+        <canvas id="HSVCanvas"></canvas>
+    </div>
+    <div id="ChangeContainer">
+        <input type="range" min="-360" max="360" id="slider1">
+        <div id="output1"></div>
+        <input type="range" min="-100" max="100" id="slider2">
+        <div id="output2"></div>
+        <input type="range" min="-100" max="100" id="slider3">
+        <div id="output3"></div>
+        <button id="button1">ChangeHSV</button>
+        <button id="button2">Refresh</button>
+        <button id="button3">Save</button>
+    </div>
+    <script data-main="js/script" src="js/require.js"></script>
+
+</body>
+
+</html>

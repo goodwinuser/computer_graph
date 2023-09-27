@@ -1,0 +1,34 @@
+body {
+    text-align: center;
+}
+
+#Container,
+ChangeContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+canvas {
+    border: 1px solid black;
+}
+
+#slider {
+    width: 300px;
+    height: 10px;
+    background-color: #ccc;
+    appearance: none;
+    outline: none;
+}
+
+#slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    cursor: pointer;
+}
+
+#output {
+    margin-top: 10px;
+}
