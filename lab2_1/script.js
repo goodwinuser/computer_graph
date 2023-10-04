@@ -2,6 +2,7 @@ const imageInput = document.getElementById('imageInput');
 const originalCanvas = document.getElementById('originalCanvas');
 const v1 = document.getElementById('v1');
 const v2 = document.getElementById('v2');
+const v3 = document.getElementById('v3');
 const v1Canvas = document.getElementById('v1H');
 const v2Canvas = document.getElementById('v2H');
 
@@ -23,6 +24,9 @@ function handleImageUpload(event) {
                 v1.height = img.height;
                 v2.width = img.width;
                 v2.height = img.height;
+                v3.width = img.width;
+                v3.height = img.height;
+
 
                 const originalCtx = originalCanvas.getContext('2d');
                 originalCtx.drawImage(img, 0, 0);
@@ -31,6 +35,7 @@ function handleImageUpload(event) {
 
                 drawChannelImage(v1, imageData, 'v1');
                 drawChannelImage(v2, imageData, 'v2');
+                drawDifferent(img.width, img.height, v3, v1, v2)
 
                 const histogramDataV1 = new Uint8Array(imageData.length / 4);
                 const histogramDataV2 = new Uint8Array(imageData.length / 4);
@@ -78,6 +83,29 @@ function drawChannelImage(canvas, imageData, channel) {
             channelData[j + 3] = 255;
         }
 
+    }
+
+    ctx.putImageData(channelImageData, 0, 0);
+}
+
+function drawDifferent(w, h, canvas, canvas1, canvas2) {
+    const width = canvas.width;
+    const height = canvas.height;
+    const ctx = canvas.getContext('2d');
+    const channelImageData = ctx.createImageData(width, height);
+    const channelData = channelImageData.data;
+
+
+    const imageDataV1 = canvas1.getContext('2d').getImageData(0, 0, w, h).data;
+    const imageDataV2 = canvas2.getContext('2d').getImageData(0, 0, w, h).data;
+
+    const imageData = ctx.getImageData(0, 0, w, h).data;
+    for (let i = 0, j = 0; i < imageData.length; i += 4, j += 4) {
+        channelData[j] = imageDataV1[j] - imageDataV2[j] + (255 / 2);
+        channelData[j + 1] = imageDataV1[j + 1] - imageDataV2[j + 1] + (255 / 2);
+        channelData[j + 2] = imageDataV1[j + 2] - imageDataV2[j + 2] + (255 / 2);
+        channelData[j + 3] = 255;
+    
     }
 
     ctx.putImageData(channelImageData, 0, 0);
