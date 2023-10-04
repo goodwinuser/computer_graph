@@ -96,8 +96,10 @@ button1.onclick = async function () {
 
     const HSVCtx = HSVCanvas.getContext('2d');
     const changedImageData = HSVCtx.getImageData(0, 0, HSVCanvas.width, HSVCanvas.height);
+    const ctx = originalCanvas.getContext('2d');
+    const originalImageData = ctx.getImageData(0, 0, originalCanvas.width, originalCanvas.height);
 
-    const modifiedData = changeHsv(changedImageData, text1, text2, text3);
+    const modifiedData = changeHsv(originalImageData, changedImageData, text1, text2, text3);
     //const modifiedData = changeHsv(changedImageData, 0.1, -0.1, 0.1);
     HSVCtx.putImageData(modifiedData, 0, 0);
 }
@@ -123,33 +125,34 @@ button3.onclick = function () {
     // });
 }
 
-function changeHsv(imageData, h, s, v) {
+function changeHsv(originalImageData, imageData, h, s, v) {
     // Получаем данные пикселей изображения
     const data = imageData.data;
+    const originalData = originalImageData.data;
 
     // Проходимся по каждому пикселю
-    for (let i = 0; i < data.length; i += 4) {
+    for (let i = 0; i < originalData.length; i += 4) {
         // Получаем значения RGB пикселя
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
+        const r = originalData[i];
+        const g = originalData[i + 1];
+        const b = originalData[i + 2];
 
         // Преобразуем RGB в HSV
         const hsv = rgbToHsv(r, g, b);
 
         // Изменяем значения параметров HSV
-        hsv.h += h;
-        hsv.s += s;
-        hsv.v += v;
+        // hsv.h += h;
+        // hsv.s += s;
+        // hsv.v += v;
 
-        // Ограничиваем значения параметров в диапазоне от 0 до 1
-        hsv.h = Math.max(0, Math.min(360, hsv.h));
-        hsv.s = Math.max(0, Math.min(100, hsv.s));
-        hsv.v = Math.max(0, Math.min(100, hsv.v));
+        // // Ограничиваем значения параметров в диапазоне от 0 до 1
+        // hsv.h = Math.max(0, Math.min(360, hsv.h));
+        // hsv.s = Math.max(0, Math.min(100, hsv.s));
+        // hsv.v = Math.max(0, Math.min(100, hsv.v));
 
         // Преобразуем HSV обратно в RGB
         //console.log(hsv);
-        const rgb = hsvToRgb(hsv.h, hsv.s, hsv.v);
+        const rgb = hsvToRgb(Math.abs((hsv.h + h + 360) % 360), Math.max(0, Math.min(100, hsv.s + s)), Math.max(0, Math.min(100, hsv.v + v)));
         //console.log(rgb);
         // Устанавливаем новые значения RGB пикселя
         data[i] = rgb.r;
