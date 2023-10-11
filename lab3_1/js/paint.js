@@ -62,7 +62,7 @@ function draw2(event) {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        findBoundary(imageData, event.offsetX, event.offsetY, `rgba(0, 0, 0, 255)`,
+        startFindBoundary(imageData, event.offsetX, event.offsetY, `rgba(0, 0, 0, 255)`,
             `rgba(0, 255, 0, 255)`);
         ctx.putImageData(imageData, 0, 0);
         console.log("End");
@@ -178,7 +178,7 @@ function setPixelColor(imageData, x, y, color) {
 const set = [];
 
 function floodFillLine(imageData, x, y, fillColor) {
-    console.log(set, set.length);
+    //console.log(set, set.length);
     for (let i = 0; i < set.length; i++) {
         const pair = set[i];
         if (pair[0] === x && pair[1] === y) {
@@ -204,12 +204,12 @@ function floodFillLine(imageData, x, y, fillColor) {
     }
     left = currentX + 1;
 
+    //console.log(left, y, right, y);
     // ctx.beginPath();
     // ctx.moveTo(left, y);
     // ctx.lineTo(right, y);
-    // ctx.strokeStyle = 'red';
+    // ctx.strokeStyle = "green";
     // ctx.stroke();
-    // ctx.closePath();
 
     currentX = left;
     while (currentX !== right + 1) {
@@ -282,6 +282,14 @@ function neighborsBoundaries(imageData, x, y, boundaryColor) {
         }
     }
     return false;
+}
+
+function startFindBoundary(imageData, startX, startY, boundaryColor, fillColor) {
+    let currentX = startX;
+    while (getPixelColor(imageData, currentX, startY) != boundaryColor) {
+        currentX++;
+    }
+    findBoundary(imageData, currentX - 1, startY, boundaryColor, fillColor)
 }
 
 // // Создаем функцию для обхода границы связной области
@@ -438,7 +446,7 @@ function floodFillLineIMG(canvasData, x, y, startX, startY, imageData) {
     // ctx.beginPath();
     // ctx.moveTo(left, y);
     // ctx.lineTo(right, y);
-    // ctx.strokeStyle = 'red';
+    // ctx.strokeStyle = "red";
     // ctx.stroke();
     // ctx.closePath();
 
