@@ -18,6 +18,9 @@ var button4 = document.getElementById("button4");
 var button5 = document.getElementById("button5");
 //button4.style.backgroundColor = "white"
 
+var colorInput = document.getElementById("fillColor");
+var colorInputBorder = document.getElementById("borderColor");
+
 imageInput.addEventListener('change', handleImageUpload);
 
 function handleImageUpload(event) {
@@ -52,7 +55,7 @@ function draw2(event) {
     }
     else if (flag === 2) {
         console.log(flag);
-        floodFill(ctx.getImageData(0, 0, canvas.width, canvas.height), event.offsetX, event.offsetY, `rgba(255, 0, 0, 255)`);
+        floodFill(ctx.getImageData(0, 0, canvas.width, canvas.height), event.offsetX, event.offsetY, hex_to_rgba(colorInputBorder.value));
         //my_floodFill(ctx.getImageData(0, 0, canvas.width, canvas.height), event.offsetX, event.offsetY, 'rgba(255, 0, 0, 255)');
         return;
     }
@@ -62,7 +65,7 @@ function draw2(event) {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        startFindBoundary(imageData, event.offsetX, event.offsetY, `rgba(0, 0, 0, 255)`,
+        startFindBoundary(imageData, event.offsetX, event.offsetY, hex_to_rgba(colorInputBorder.value),
             `rgba(0, 255, 0, 255)`);
         ctx.putImageData(imageData, 0, 0);
         console.log("End");
@@ -70,7 +73,7 @@ function draw2(event) {
     }
     else if (flag === 5) {
         console.log(flag);
-        floodFillIMG(ctx.getImageData(0, 0, canvas.width, canvas.height), event.offsetX, event.offsetY,
+        floodFillIMG(ctx.getImageData(0, 0, canvas.width, canvas.height), event.offsetX, event.offsetY, hex_to_rgba(colorInputBorder.value),
             imageCtx.getImageData(0, 0, imageCanvas.width, imageCanvas.height));
         return;
     }
@@ -95,7 +98,7 @@ function draw(event) {
 
     //console.log(event.offsetX, event.offsetY);
 
-    ctx.fillStyle = "black";
+    ctx.fillStyle = colorInputBorder.value;
     ctx.fillRect(x, y, 8, 8);
 }
 
@@ -175,9 +178,22 @@ function setPixelColor(imageData, x, y, color) {
     imageData.data[index + 3] = rgba[3];
 }
 
+function hex_to_rgba(hex_color) {
+    // Удаляем символ # из шестнадцатеричного значения цвета
+    hex_color = hex_color.replace("#", "");
+
+    // Разбиваем шестнадцатеричное значение на отдельные компоненты цвета
+    var r = parseInt(hex_color.substring(0, 2), 16);
+    var g = parseInt(hex_color.substring(2, 4), 16);
+    var b = parseInt(hex_color.substring(4, 6), 16);
+
+    // Возвращаем строку в формате RGBA
+    return `rgba(${r}, ${g}, ${b}, ${255})`;
+}
+
 const set = [];
 
-function floodFillLine(imageData, x, y, fillColor) {
+function floodFillLine(imageData, x, y, boundaryColor) {
     //console.log(set, set.length);
     for (let i = 0; i < set.length; i++) {
         const pair = set[i];
@@ -188,18 +204,18 @@ function floodFillLine(imageData, x, y, fillColor) {
 
     // Заливаем серию пикселов вправо
     let currentX = x, left, right;
-    while (getPixelColor(imageData, currentX, y) !== `rgba(0, 0, 0, 255)` && currentX < imageData.width) {
+    while (getPixelColor(imageData, currentX, y) !== boundaryColor && currentX < imageData.width) {
         set.push([currentX, y]);
-        setPixelColor(imageData, currentX, y, fillColor);
+        setPixelColor(imageData, currentX, y, hex_to_rgba(colorInput.value));
         currentX++;
     }
     right = currentX - 1;
 
     // Заливаем серию пикселов влево
     currentX = x - 1;
-    while (getPixelColor(imageData, currentX, y) !== `rgba(0, 0, 0, 255)` && currentX >= 0) {
+    while (getPixelColor(imageData, currentX, y) !== boundaryColor && currentX >= 0) {
         set.push([currentX, y]);
-        setPixelColor(imageData, currentX, y, fillColor);
+        setPixelColor(imageData, currentX, y, hex_to_rgba(colorInput.value));
         currentX--;
     }
     left = currentX + 1;
@@ -213,7 +229,7 @@ function floodFillLine(imageData, x, y, fillColor) {
 
     currentX = left;
     while (currentX !== right + 1) {
-        if (getPixelColor(imageData, currentX, y + 1) !== `rgba(0, 0, 0, 255)` && y < imageData.height) {
+        if (getPixelColor(imageData, currentX, y + 1) !== boundaryColor && y < imageData.height) {
             let flag1 = false;
             for (let i = 0; i < set.length; i++) {
                 const pair = set[i];
@@ -222,7 +238,7 @@ function floodFillLine(imageData, x, y, fillColor) {
                 }
             }
             if (flag1 === false) {
-                floodFillLine(imageData, currentX, y + 1, fillColor);
+                floodFillLine(imageData, currentX, y + 1, boundaryColor);
             }
         }
         currentX++;
@@ -230,7 +246,7 @@ function floodFillLine(imageData, x, y, fillColor) {
 
     currentX = left;
     while (currentX !== right + 1) {
-        if (getPixelColor(imageData, currentX, y - 1) !== `rgba(0, 0, 0, 255)` && y - 1 >= 0) {
+        if (getPixelColor(imageData, currentX, y - 1) !== boundaryColor && y - 1 >= 0) {
             let flag1 = false;
             for (let i = 0; i < set.length; i++) {
                 const pair = set[i];
@@ -239,7 +255,7 @@ function floodFillLine(imageData, x, y, fillColor) {
                 }
             }
             if (flag1 === false) {
-                floodFillLine(imageData, currentX, y - 1, fillColor);
+                floodFillLine(imageData, currentX, y - 1, boundaryColor);
             }
         }
         currentX++;
@@ -247,9 +263,8 @@ function floodFillLine(imageData, x, y, fillColor) {
 }
 
 // Создаем функцию для заливки области
-function floodFill(imageData, startX, startY, fillColor) {
-    const startColor = getPixelColor(imageData, startX, startY);
-    floodFillLine(imageData, startX, startY, fillColor);
+function floodFill(imageData, startX, startY, boundaryColor) {
+    floodFillLine(imageData, startX, startY, boundaryColor);
     ctx.putImageData(imageData, 0, 0);
     set.length = 0;
 }
@@ -399,15 +414,14 @@ function findBoundary1(imageData, startX, startY, boundaryColor, fillColor) {
 }
 
 // Создаем функцию для заливки области изображением
-function floodFillIMG(canvasData, startX, startY, imageData) {
-    const startColor = getPixelColor(canvasData, startX, startY);
-    floodFillLineIMG(canvasData, startX, startY, startX, startY, imageData);
+function floodFillIMG(canvasData, startX, startY, boundaryColor, imageData) {
+    floodFillLineIMG(canvasData, startX, startY, startX, startY, boundaryColor, imageData);
     ctx.putImageData(canvasData, 0, 0);
     set.length = 0;
 }
 
-function floodFillLineIMG(canvasData, x, y, startX, startY, imageData) {
-    console.log(set, set.length);
+function floodFillLineIMG(canvasData, x, y, startX, startY, boundaryColor, imageData) {
+    //console.log(set, set.length);
     for (let i = 0; i < set.length; i++) {
         const pair = set[i];
         if (pair[0] === x && pair[1] === y) {
@@ -417,7 +431,7 @@ function floodFillLineIMG(canvasData, x, y, startX, startY, imageData) {
 
     // Заливаем серию пикселов вправо
     let currentX = x;
-    while (getPixelColor(canvasData, currentX, y) !== `rgba(0, 0, 0, 255)` && currentX < canvasData.width) {
+    while (getPixelColor(canvasData, currentX, y) !== boundaryColor && currentX < canvasData.width) {
         set.push([currentX, y]);
         const xx = ((currentX - startX) % imageData.width + imageData.width) % imageData.width,
             yy = ((y - startY) % imageData.height + imageData.height) % imageData.height;
@@ -431,7 +445,7 @@ function floodFillLineIMG(canvasData, x, y, startX, startY, imageData) {
 
     // Заливаем серию пикселов влево
     currentX = x - 1;
-    while (getPixelColor(canvasData, currentX, y) !== `rgba(0, 0, 0, 255)` && currentX >= 0) {
+    while (getPixelColor(canvasData, currentX, y) !== boundaryColor && currentX >= 0) {
         set.push([currentX, y]);
         const xx = ((currentX - startX) % imageData.width + imageData.width) % imageData.width,
             yy = ((y - startY) % imageData.height + imageData.height) % imageData.height;
@@ -452,7 +466,7 @@ function floodFillLineIMG(canvasData, x, y, startX, startY, imageData) {
 
     currentX = left;
     while (currentX !== right + 1) {
-        if (getPixelColor(canvasData, currentX, y + 1) !== `rgba(0, 0, 0, 255)` && y + 1 < canvasData.height) {
+        if (getPixelColor(canvasData, currentX, y + 1) !== boundaryColor && y + 1 < canvasData.height) {
             let flag1 = false;
             for (let i = 0; i < set.length; i++) {
                 const pair = set[i];
@@ -461,7 +475,7 @@ function floodFillLineIMG(canvasData, x, y, startX, startY, imageData) {
                 }
             }
             if (flag1 === false) {
-                floodFillLineIMG(canvasData, currentX, y + 1, startX, startY, imageData);
+                floodFillLineIMG(canvasData, currentX, y + 1, startX, startY, boundaryColor, imageData);
             }
         }
         currentX++;
@@ -469,7 +483,7 @@ function floodFillLineIMG(canvasData, x, y, startX, startY, imageData) {
 
     currentX = left;
     while (currentX !== right + 1) {
-        if (getPixelColor(canvasData, currentX, y - 1) !== `rgba(0, 0, 0, 255)` && y - 1 >= 0) {
+        if (getPixelColor(canvasData, currentX, y - 1) !== boundaryColor && y - 1 >= 0) {
             let flag1 = false;
             for (let i = 0; i < set.length; i++) {
                 const pair = set[i];
@@ -478,7 +492,7 @@ function floodFillLineIMG(canvasData, x, y, startX, startY, imageData) {
                 }
             }
             if (flag1 === false) {
-                floodFillLineIMG(canvasData, currentX, y - 1, startX, startY, imageData);
+                floodFillLineIMG(canvasData, currentX, y - 1, startX, startY, boundaryColor, imageData);
             }
         }
         currentX++;
