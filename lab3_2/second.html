@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Lab 3</title>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+        var plot = function (x, y, c) {
+            if (isFinite(x) && isFinite(y)) {
+                setPixel(x, y, { r: plot.color.r, g: plot.color.g, b: plot.color.b, a: plot.color.a * c });
+            }
+        };
+
+        function setPixel(x, y, c) {
+            var p = canvas.createImageData(1, 1);
+            p.data[0] = c.r;
+            p.data[1] = c.g;
+            p.data[2] = c.b;
+            p.data[3] = c.a;
+            canvas.putImageData(p, x, y);
+        }
+
+        var ipart = Math.floor;
+
+        function fpart(x) {
+            return x - Math.floor(x);
+        }
+
+        function rfpart(x) {
+            return 1.0 - fpart(x);
+        }
+
+        function drawLine(x0, y0, x1, y1, color) {
+            plot.color = color || { r: 0, g: 0, b: 0, a: 255 };
+            var steep = Math.abs(y1 - y0) > Math.abs(x1 - x0);
+            if (steep) {
+                [x0, y0] = [y0, x0];
+                [x1, y1] = [y1, x1];
+            }
+            if (x0 > x1) {
+                [x0, x1] = [x1, x0];
+                [y0, y1] = [y1, y0];
+            }
+            var dx = x1 - x0;
+            var dy = y1 - y0;
+            var gradient = dy / dx;
+            var xend = Math.round(x0);
+            var yend = y0 + gradient * (xend - x0);
+            var xgap = rfpart(x0 + 0.5);
+            var xpxl1 = xend;
+            var ypxl1 = ipart(yend);
+            if (steep) {
+                plot(ypxl1, xpxl1, rfpart(yend) * xgap);
+                plot(ypxl1 + 1, xpxl1, fpart(yend) * xgap);
+            } else {
+                plot(xpxl1, ypxl1, rfpart(yend) * xgap);
+                plot(xpxl1, ypxl1 + 1, fpart(yend) * xgap);
+            }
+            var intery = yend + gradient;
+            xend = Math.round(x1);
+            yend = y1 + gradient * (xend - x1);
+            xgap = fpart(x1 + 0.5);
+            var xpxl2 = xend;
+            var ypxl2 = ipart(yend);
+            if (steep) {
+                plot(ypxl2, xpxl2, rfpart(yend) * xgap);
+                plot(ypxl2 + 1, xpxl2, fpart(yend) * xgap);
+            } else {
+                plot(xpxl2, ypxl2, rfpart(yend) * xgap);
+                plot(xpxl2, ypxl2 + 1, fpart(yend) * xgap);
+            }
+            for (var x = xpxl1 + 1; x <= xpxl2 - 1; x++) {
+                if (steep) {
+                    plot(ipart(intery), x, rfpart(intery));
+                    plot(ipart(intery) + 1, x, fpart(intery));
+                } else {
+                    plot(x, ipart(intery), rfpart(intery));
+                    plot(x, ipart(intery) + 1, fpart(intery));
+                }
+                intery = intery + gradient;
+            }
+        }
+    </script>
+</head>
+
+<body style="margin: 0; height: 100vh;">
+    <script type="text/javascript">
+        let startPoint = { x: 50, y: 50 };
+        let endPoint = { x: 350, y: 350 };
+
+        var canvasElem = document.createElement('canvas');
+        canvasElem.style.border = '1px solid black'
+        canvasElem.id = "canvas";
+        canvasElem.width = 600;
+        canvasElem.height = 600;
+        canvasElem.style.margin = 'auto';
+        canvasElem.style.display = 'flex';
+        document.body.appendChild(canvasElem);
+        canvas = canvasElem.getContext('2d');
+        canvasX = canvasElem.width;
+        canvasY = canvasElem.height;
+        
+        function draw() {
+            canvas.clearRect(0, 0, canvasElem.width, canvasElem.height);
+            drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+        }
+
+        canvasElem.addEventListener("click", function (event) {
+            endPoint = { x: event.clientX - canvasElem.offsetLeft, y: event.clientY - canvasElem.offsetTop };
+            draw();
+        });
+
+        draw();
+    </script>
+</body>
+
+</html>

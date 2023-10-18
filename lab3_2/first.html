@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+        function drawLineBresenham(x1, y1, x2, y2, pixelSize) {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            const pixelSizeX = pixelSize;
+            const pixelSizeY = pixelSize;
+
+            const dx = Math.abs(x2 - x1);
+            const dy = Math.abs(y2 - y1);
+            const sx = x1 < x2 ? 1 : -1;
+            const sy = y1 < y2 ? 1 : -1;
+            let err = dx - dy;
+
+            while (x1 !== x2 || y1 !== y2) {
+                ctx.fillRect(x1, y1, pixelSizeX, pixelSizeY);
+                const e2 = 2 * err;
+                if (e2 > -dy) {
+                    err -= dy;
+                    x1 += sx * pixelSizeX;
+                }
+                if (e2 < dx) {
+                    err += dx;
+                    y1 += sy * pixelSizeY;
+                }
+            }
+        }
+
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let startPoint = { x: 50, y: 50 };
+        let endPoint = { x: 350, y: 350 };
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawLineBresenham(startPoint.x, startPoint.y, endPoint.x, endPoint.y, selectedPixelSize);
+        }
+
+        canvas.addEventListener("click", function (event) {
+            endPoint = { x: event.clientX - canvas.offsetLeft, y: event.clientY - canvas.offsetTop };
+            draw();
+        });
+
+        const pixelSizeSelect = document.getElementById("pixelSize");
+        let selectedPixelSize = 1;
+
+        draw();
+
+        pixelSizeSelect.addEventListener("change", function () {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            const newSize = parseInt(pixelSizeSelect.value);
+            selectedPixelSize = newSize;
+            draw();
+        });
+    </script>
+</body>
+
+</html>
