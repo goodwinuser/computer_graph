@@ -21,6 +21,8 @@ function changeSelected(e) {
 var button4 = document.getElementById('button4');
 var button5 = document.getElementById('button5');
 
+var checkBox = document.getElementById('u_point');
+
 // Переменные для хранения начальных и конечных координат линии
 let startX, startY, endX, endY;
 var polygons = []//[[[100, 100], [200, 100], [200, 200]]]
@@ -196,7 +198,11 @@ function refreshCanvas() {
         ctx.stroke();
     }
     for (var i = 0; i < points.length; ++i) {
+        if (checkBox.checked && i === points.length - 1) {
+            ctx.fillStyle = "red";
+        }
         ctx.fillRect(points[i][0] - 2, points[i][1] - 2, 5, 5);
+        ctx.fillStyle = "black";
     }
     flag = 0;
 }
@@ -205,7 +211,7 @@ button4.onclick = function () {
     if (temp.length > 2) {
         polygons.push(JSON.parse(JSON.stringify(temp)));
     }
-    temp = [];
+    temp.length = 0;
     refreshCanvas();
 }
 
@@ -261,7 +267,11 @@ function rotatePolygons(event) {
         return;
     }
     for (var i = 0; i < old_polygons.length; ++i) {
-        const center = findCenter(old_polygons[i]);
+        var center = findCenter(old_polygons[i]);
+        if (checkBox.checked) {
+            console.log(points[points.length - 1]);
+            center = [points[points.length - 1][0], points[points.length - 1][1]];
+        }
         //console.log("cente-r = " + center);
         // const cosF = ((event.offsetX - center[0]) * (startX - center[0]) + (event.offsetY - center[1]) * (startY - center[1])) /
         //     (Math.abs(Math.sqrt(Math.pow(event.offsetX - center[0], 2) + Math.pow(event.offsetY - center[1], 2))) *
@@ -290,11 +300,11 @@ function scalePolygons(event) {
         return;
     }
     for (var i = 0; i < old_polygons.length; ++i) {
-        const center = findCenter(old_polygons[i]);
-        //console.log("cente-r = " + center);
-        // const cosF = ((event.offsetX - center[0]) * (startX - center[0]) + (event.offsetY - center[1]) * (startY - center[1])) /
-        //     (Math.abs(Math.sqrt(Math.pow(event.offsetX - center[0], 2) + Math.pow(event.offsetY - center[1], 2))) *
-        //         Math.abs(Math.sqrt(Math.pow(startX - center[0], 2) + Math.pow(startY - center[1], 2))));
+        var center = findCenter(old_polygons[i]);
+        if (checkBox.checked) {
+            console.log(points[points.length - 1]);
+            center = [points[points.length - 1][0], points[points.length - 1][1]];
+        }
         const a = 1 + (event.offsetX - startX) / 100, b = 1 + (event.offsetY - startY) / 100;
         var matrix = transformMatrix(a, 0, 0, b,
             (1 - a) * center[0], (1 - b) * center[1]);
