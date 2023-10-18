@@ -202,6 +202,14 @@ function refreshCanvas() {
 }
 
 button4.onclick = function () {
+    if (temp.length > 2) {
+        polygons.push(JSON.parse(JSON.stringify(temp)));
+    }
+    temp = [];
+    refreshCanvas();
+}
+
+button5.onclick = function () {
     //console.log(polygons, points, temp);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     polygons.length = 0;
