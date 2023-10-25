@@ -1,14 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <canvas id="main" width="1800" height="900"></canvas>
+    <canvas id="main" width="1600" height="900"></canvas>
+    <div style="float: right;">
+        <div>
+            <input type="color" id="fp" name="fp" value="#ff0000" />
+            <label for="head">1 point</label>
+        </div>
+
+        <div>
+            <input type="color" id="sp" name="sp" value="#00ff00" />
+            <label for="body">2 point</label>
+        </div>
+
+        <div>
+            <input type="color" id="tp" name="tp" value="#0000ff" />
+            <label for="body">3 point</label>
+        </div>
+    </div>
+
     <script src="paint.js"></script>
 
-   
+
 </body>
+
 </html>

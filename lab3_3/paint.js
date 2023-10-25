@@ -1,3 +1,7 @@
+const fpcolor = document.getElementById('fp');
+const spcolor = document.getElementById('sp');
+const tpcolor = document.getElementById('tp');
+
 const canvas = document.getElementById('main');
 let ctx = canvas.getContext('2d');
 ctx.lineWidth = 2;
@@ -106,6 +110,38 @@ function draw_points(event) {
 }
 
 
+function hexToRgbA(hex){
+    var c;
+    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+        c= hex.substring(1).split('');
+        if(c.length== 3){
+            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+        }
+        c= '0x'+c.join('');
+        return [(c>>16)&255, (c>>8)&255, c&255];
+    }
+    throw new Error('Bad Hex');
+}
+
+hexToRgbA('#fbafff')
+
+
+function change_color(event) {
+    let fpcv = hexToRgbA(fpcolor.value);
+    colorA = [fpcv[0], fpcv[1], fpcv[2], 255];
+
+    let spcv = hexToRgbA(spcolor.value);
+    colorB = [spcv[0], spcv[1], spcv[2], 255];
+
+    let tpcv = hexToRgbA(tpcolor.value);
+    colorC = [tpcv[0], tpcv[1], tpcv[2], 255];
+
+    rasterization();
+}
+
 
 
 canvas.addEventListener("click", draw_points);
+fpcolor.addEventListener("change", change_color);
+spcolor.addEventListener("change", change_color);
+tpcolor.addEventListener("change", change_color);
