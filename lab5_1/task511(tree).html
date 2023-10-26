@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fractal Tree</title>
+    <style>
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let axiom = "22220";
+        let axmTemp = "";
+        const itr = 12;
+        const angl = 14 * Math.PI / 180;
+        const dl = 10;
+        let level = 0;
+        let stack = [];
+        const thick = 16;
+        ctx.lineWidth = thick;
+
+      
+        let x = canvas.width / 2; 
+        let y = canvas.height;
+        let angle = -Math.PI / 2;
+
+        for (let k = 0; k < itr; k++) {
+            for (let ch of axiom) {
+                switch (ch) {
+                    case '0':
+                        axmTemp += '1[-20][+20]';
+                        break;
+                    case '1':
+                        axmTemp += '21';
+                        break;
+                    case '[':
+                        axmTemp += '[';
+                        level++;
+                        break;
+                    case ']':
+                        axmTemp += ']';
+                        level--;
+                        break;
+                    case '2':
+                        axmTemp += Math.random() * 100 < 7 && level > 2 ? '3[^30]' : '2';
+                        break;
+                    default:
+                        axmTemp += ch;
+                }
+            }
+            axiom = axmTemp;
+            axmTemp = "";
+        }
+
+        for (let ch of axiom) {
+            switch (ch) {
+                case '+':
+                    angle += angl - getRandomInt(-13, 13) * Math.PI / 180;
+                    break;
+                case '-':
+                    angle -= angl - getRandomInt(-13, 13) * Math.PI / 180;
+                    break;
+                case '^':
+                    let ug = getRandomInt(-30, 30);
+                    angle -= ug < 0 ? (ug - 25) * Math.PI / 180 : (ug + 25) * Math.PI / 180;
+                    break;
+                case '[':
+                    level++;
+                    stack.push({
+                        x,
+                        y,
+                        angle,
+                        lw: ctx.lineWidth
+                    });
+                    ctx.lineWidth *= 0.75;
+                    break;
+                case ']':
+                    level--;
+                    const state = stack.pop();
+                    x = state.x;
+                    y = state.y;
+                    angle = state.angle;
+                    ctx.lineWidth = state.lw;
+                    break;
+                case '0':
+                    ctx.strokeStyle = getRandomInt(0, 10) < 3 ? '#009900' : getRandomInt(0, 10) > 6 ? '#667900' : '#20BB00';
+                    draw();
+                    ctx.strokeStyle = '#000000';
+                    break;
+                default:
+                    if (getRandomInt(0, 10) > 4) draw();
+            }
+        }
+
+        function draw() {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+
+            x = x + Math.cos(angle) * dl;
+            y = y + Math.sin(angle) * dl;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min);
+        }
+
+    </script>
+</body>
+</html>
