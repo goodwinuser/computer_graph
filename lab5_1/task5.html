@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <canvas id="myCanvas" width="1800" height="900" style="border: 1px solid #d3d3d3;"></canvas>
+    <button id="zoomIn">+</button>
+    <button id="zoomOut">-</button>
+    <input type="file" id="lSystemFile" onchange="loadFile(event)">
+    <script>
+        let axiom = "a";
+        let axmTemp = "";
+        let strokeLength = 5;
+        let iterations = 7;
+        let startAngle = 0.0; // в градусах
+        let startPos = { x: 50, y: 50 };
+        let trace = [];
+        let angleOfRotation = 60;
+
+        let canvas = document.getElementById("myCanvas");
+        let ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 2;
+
+        let translate = { "a": "b-a-b", "b": "a+b+a" };
+        let scale = 1; // Изначальный масштаб
+
+
+        function loadFile(event) {
+            let reader = new FileReader();
+            reader.onload = function () {
+                var lines = reader.result.split("\n");
+                var firstLine = lines[0].split(" ");
+                axiom = firstLine[0];
+                angleOfRotation = parseFloat(firstLine[1]);
+                startAngle = parseFloat(firstLine[2]);
+
+                for (var i = 1; i < lines.length; i++) {
+                    var line = lines[i].split("=").map(function (item) {
+                        return item.trim();
+                    });
+                    translate[line[0]] = line[1];
+                }
+
+
+                for (let k = 0; k < iterations; k++) {
+                    for (let ch of axiom) {
+                        console.log(ch)
+                        axmTemp += translate[ch] || ch;
+                    }
+                    axiom = axmTemp;
+                    axmTemp = "";
+                }
+
+
+                redraw();
+
+            };
+            reader.readAsText(event.target.files[0]);
+        }
+
+
+
+        for (let k = 0; k < iterations; k++) {
+            for (let ch of axiom) {
+                console.log(ch)
+                axmTemp += translate[ch] || ch;
+            }
+            axiom = axmTemp;
+            axmTemp = "";
+        }
+
+        let pos = { ...startPos };
+
+        function drawLine(context, x1, y1, x2, y2) {
+            context.beginPath();
+            context.moveTo(x1, y1);
+            context.lineTo(x2, y2);
+            context.stroke();
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function redraw() {
+            clearCanvas();
+            ctx.save();
+            ctx.scale(scale, scale); // Применяем масштабирование
+            pos = { ...startPos };
+            let angle = startAngle;
+            for (let ch of axiom) {
+                if (ch === "+") {
+                    angle -= angleOfRotation;
+                } else if (ch === "-") {
+                    angle += angleOfRotation;
+                } else {
+                    let x2 = pos.x + strokeLength * Math.cos(angle * (Math.PI / 180));
+                    let y2 = pos.y + strokeLength * Math.sin(angle * (Math.PI / 180));
+                    drawLine(ctx, pos.x, pos.y, x2, y2);
+                    pos = { x: x2, y: y2 };
+                }
+            }
+            ctx.restore();
+        }
+
+        // Обработчики для кнопок увеличения и уменьшения масштаба
+        document.getElementById("zoomIn").addEventListener("click", () => {
+            scale += 0.2; // Увеличиваем масштаб на 20%
+            redraw();
+        });
+
+        document.getElementById("zoomOut").addEventListener("click", () => {
+            scale -= 0.2; // Уменьшаем масштаб на 20%
+            redraw();
+        });
+
+        // Изменение начальной точки рисунка
+        canvas.addEventListener("click", (event) => {
+            startPos = { x: event.clientX - canvas.offsetLeft, y: event.clientY - canvas.offsetTop };
+            redraw();
+        });
+
+        redraw(); // Начальное отображение рисунка
+
+    </script>
+</body>
+
+</html>
