@@ -16,3 +16,21 @@ C:\Users\DIO\Desktop\compGraphics-main\compGraphics-main\Lab7\Lab7\obj\Debug\net
 C:\Users\DIO\Desktop\compGraphics-main\compGraphics-main\Lab7\Lab7\obj\Debug\net6.0-windows\Lab7.pdb
 C:\Users\DIO\Desktop\compGraphics-main\compGraphics-main\Lab7\Lab7\obj\Debug\net6.0-windows\Lab7.genruntimeconfig.cache
 C:\Users\DIO\Desktop\compGraphics-main\compGraphics-main\Lab7\Lab7\obj\Debug\net6.0-windows\ref\Lab7.dll
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\bin\Debug\net6.0-windows\Lab7.exe
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\bin\Debug\net6.0-windows\Lab7.deps.json
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\bin\Debug\net6.0-windows\Lab7.runtimeconfig.json
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\bin\Debug\net6.0-windows\Lab7.dll
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\bin\Debug\net6.0-windows\Lab7.pdb
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.ChooseFunForm.resources
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.Form1.resources
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.Properties.Resources.resources
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.csproj.GenerateResource.cache
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.AssemblyInfoInputs.cache
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.AssemblyInfo.cs
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.csproj.CoreCompileInputs.cache
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.dll
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\refint\Lab7.dll
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.pdb
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\Lab7.genruntimeconfig.cache
+C:\Users\DIO\Desktop\labs comp graphs\lab 7\Lab7\obj\Debug\net6.0-windows\ref\Lab7.dll

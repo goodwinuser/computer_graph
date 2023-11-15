@@ -198,7 +198,7 @@ namespace Lab7
         /// <returns></returns>
         public virtual String getShapeName()
         {
-            return "SHAPE";
+            return "SURFACESEGMENT";
         }
         // читает модель многогранника из файла
         public static Shape readShape(string fileName)

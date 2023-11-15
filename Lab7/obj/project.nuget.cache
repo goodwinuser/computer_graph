@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gk03bc82pk5kq4k6xV3wgSjN+cU6Tr0BNVxc7FmWqIF/A2cJIAi01u86iAmk19gs1jRpW27hI+SFm2Tnjk4PUw==",
+  "dgSpecHash": "iAEM00IWmfaSYPBdwqV/xIi3b/4g5JIC8GMlk+JKQB9opTffRPbkFAPRQzztJ5Wxf1VNEa5pE3U0CgPIFgtrTw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\DIO\\Desktop\\compGraphics-main\\compGraphics-main\\Lab7\\Lab7\\Lab7.csproj",
+  "projectFilePath": "C:\\Users\\DIO\\Desktop\\labs comp graphs\\lab 7\\Lab7\\Lab7.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DIO\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.1\\microsoft.netcore.platforms.1.1.1.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",

@@ -40,7 +40,7 @@ namespace Lab7
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            SelectedFunction = (double x, double y) => { return Math.Sin(x) + Math.Cos(y); };
+            SelectedFunction = (double x, double y) => { return 100.0 * Math.Sin(x/100.0) + Math.Cos(y/100.0); };
             Formula = pictureBox3.Image;
             ImageSize = pictureBox3.Size;
             DialogResult = DialogResult.OK;
