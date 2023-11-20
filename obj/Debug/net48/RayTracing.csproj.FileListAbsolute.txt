@@ -1,0 +1,9 @@
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.csproj.AssemblyReference.cache
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.csproj.SuggestedBindingRedirects.cache
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.Form1.resources
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.FormResult.resources
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.csproj.GenerateResource.cache
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.AssemblyInfoInputs.cache
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.AssemblyInfo.cs
+C:\Users\ocher\RiderProjects\RayTracing\obj\Debug\net48\RayTracing.csproj.CoreCompileInputs.cache
