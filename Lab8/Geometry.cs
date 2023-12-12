@@ -224,13 +224,12 @@ namespace Lab8
         public Face addEdge(Line edge)
         {
             edges.Add(edge);
-            recalculateNormVector();
+
             return this;
         }
         public Face addEdges(IEnumerable<Line> edges)
         {
             this.edges.AddRange(edges);
-            recalculateNormVector();
             return this;
         }
         public Face addVerticle(Point p)
@@ -245,10 +244,6 @@ namespace Lab8
         }
 
         public List<Point> Verticles { get => verticles; }
-        void recalculateNormVector()
-        {
-
-        }
 
         public Vector NormVector { get {
                 Vector a = new Vector(edges.First().getVectorCoordinates()), b = new Vector(edges.Last().getReverseVectorCoordinates());

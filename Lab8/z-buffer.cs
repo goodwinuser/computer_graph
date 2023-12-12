@@ -160,35 +160,6 @@ namespace Lab8
             }
             return res;
 
-        }/// <summary>
-         /// Перевод фигуры в то, как ее видит камера
-         /// </summary>
-         /// <param name="figure">Фигура</param>
-         /// <param name="c">Камера</param>
-        public static Shape ToCamera(Shape figure, Camera c)
-        {
-            Shape res = new Shape();
-            foreach (var face in figure.Faces)
-            {
-                res.addFace(new Face().addVerticles(ProjectionToPlane(face.Verticles, c)).addEdge(new Line(face.Verticles[0], face.Verticles[1])).addEdge(new Line(face.Verticles[1], face.Verticles[2])).addEdge(new Line(face.Verticles[2], face.Verticles[3])).addEdge(new Line(face.Verticles[3], face.Verticles[1])));
-            }
-            return res;
-        }
-        /// <summary>
-        /// Перевод координат точки согласно матрице
-        /// </summary>
-        /// <param name="p">Точка</param>
-        /// <param name="matrix">Матрица перевода</param>
-        public static Point transformPoint(Point p, Matrix matrix)
-
-        {
-            var matrfrompoint = new Matrix(4, 1).fill(p.Xf, p.Yf, p.Zf, 1);
-
-            var matrPoint = matrix * matrfrompoint;//применение преобразования к точке
-                                                   //Point newPoint = new Point(matrPoint[0, 0] / matrPoint[3, 0], matrPoint[1, 0] / matrPoint[3, 0], matrPoint[2, 0] / matrPoint[3, 0]);
-            Point newPoint = new Point(matrPoint[0, 0], matrPoint[1, 0], matrPoint[2, 0]);
-            return newPoint;
-
         }
         /// <summary>
         /// Алгоритм z-буфера
