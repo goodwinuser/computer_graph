@@ -5,30 +5,30 @@
 #include "obj_parsing.h"
 
 
-// Ïåğåìåííûå ñ èíäåíòèôèêàòîğàìè ID
-// ID øåéäåğíîé ïğîãğàììû
+// ĞŸĞµÑ€ĞµĞ¼ĞµĞ½Ğ½Ñ‹Ğµ Ñ Ğ¸Ğ½Ğ´ĞµĞ½Ñ‚Ğ¸Ñ„Ğ¸ĞºĞ°Ñ‚Ğ¾Ñ€Ğ°Ğ¼Ğ¸ ID
+// ID ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ½Ğ¾Ğ¹ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼Ñ‹
 GLuint Program;
 
-// ID VBO âåğøèí
+// ID VBO Ğ²ĞµÑ€ÑˆĞ¸Ğ½
 GLuint VBO;
 
-// ID VAO âåğøèí
+// ID VAO Ğ²ĞµÑ€ÑˆĞ¸Ğ½
 GLuint VAO;
 
-// ID şíèôîğìà òåêñòóğ
+// ID ÑĞ½Ğ¸Ñ„Ğ¾Ñ€Ğ¼Ğ° Ñ‚ĞµĞºÑÑ‚ÑƒÑ€
 GLint unifTexture1;
 GLint unifTexture2;
-// ID òåêñòóğ
+// ID Ñ‚ĞµĞºÑÑ‚ÑƒÑ€
 GLint textureHandle1;
 GLint textureHandle2;
-// SFML òåêñòóğ
+// SFML Ñ‚ĞµĞºÑÑ‚ÑƒÑ€
 sf::Texture ourTexture1;
 sf::Texture ourTexture2;
 
-// ğåãóëèğîâàíèå òåêñòóğ
+// Ñ€ĞµĞ³ÑƒĞ»Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸Ğµ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€
 GLint Unif_reg;
 
-// Âåğøèíà
+// Ğ’ĞµÑ€ÑˆĞ¸Ğ½Ğ°
 struct Vertex
 {
     GLfloat x;
@@ -36,10 +36,10 @@ struct Vertex
     GLfloat z;
 };
 
-// Èñõîäíûé êîä âåğøèííîãî øåéäåğà
+// Ğ˜ÑÑ…Ğ¾Ğ´Ğ½Ñ‹Ğ¹ ĞºĞ¾Ğ´ Ğ²ĞµÑ€ÑˆĞ¸Ğ½Ğ½Ğ¾Ğ³Ğ¾ ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ°
 const char* VertexShaderSource = R"(
     #version 330 core
-    // Êîîğäèíàòû âåğøèíû. Àòğèáóò, èíèöèàëèçèğóåòñÿ ÷åğåç áóôåğ.
+    // ĞšĞ¾Ğ¾Ñ€Ğ´Ğ¸Ğ½Ğ°Ñ‚Ñ‹ Ğ²ĞµÑ€ÑˆĞ¸Ğ½Ñ‹. ĞÑ‚Ñ€Ğ¸Ğ±ÑƒÑ‚, Ğ¸Ğ½Ğ¸Ñ†Ğ¸Ğ°Ğ»Ğ¸Ğ·Ğ¸Ñ€ÑƒĞµÑ‚ÑÑ Ñ‡ĞµÑ€ĞµĞ· Ğ±ÑƒÑ„ĞµÑ€.
     in vec3 vertexPosition;
     in vec3 vertexNormale;
     in vec2 vertexTextureCoords;
@@ -62,28 +62,28 @@ const char* VertexShaderSource = R"(
         vTextureCoordinate = vertexTextureCoords;
         vColor = (vertexNormale + vec3(1.0, 1.0, 1.0)) * 0.5;
 
-        // Ïğèñâàèâàåì âåğøèíó âîëøåáíîé ïåğåìåííîé gl_Position
+        // ĞŸÑ€Ğ¸ÑĞ²Ğ°Ğ¸Ğ²Ğ°ĞµĞ¼ Ğ²ĞµÑ€ÑˆĞ¸Ğ½Ñƒ Ğ²Ğ¾Ğ»ÑˆĞµĞ±Ğ½Ğ¾Ğ¹ Ğ¿ĞµÑ€ĞµĞ¼ĞµĞ½Ğ½Ğ¾Ğ¹ gl_Position
         gl_Position = vec4(position.x, position.y, (position.z * 0.1) + 0.5, 1.0);
     }
 )";
 
-// Èñõîäíûé êîä ôğàãìåíòíîãî øåéäåğà
+// Ğ˜ÑÑ…Ğ¾Ğ´Ğ½Ñ‹Ğ¹ ĞºĞ¾Ğ´ Ñ„Ñ€Ğ°Ğ³Ğ¼ĞµĞ½Ñ‚Ğ½Ğ¾Ğ³Ğ¾ ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ°
 const char* FragShaderSource = R"(
     #version 330 core
 
     in vec2 vTextureCoordinate;
     in vec3 vColor;
 
-    // Öâåò, êîòîğûé áóäåì îòğèñîâûâàòü
+    // Ğ¦Ğ²ĞµÑ‚, ĞºĞ¾Ñ‚Ğ¾Ñ€Ñ‹Ğ¹ Ğ±ÑƒĞ´ĞµĞ¼ Ğ¾Ñ‚Ñ€Ğ¸ÑĞ¾Ğ²Ñ‹Ğ²Ğ°Ñ‚ÑŒ
     out vec4 color;
 
     uniform sampler2D ourTexture1;
     uniform sampler2D ourTexture2;
     uniform float reg;
     void main() {
-       // Çàäàíèå 2
+       // Ğ—Ğ°Ğ´Ğ°Ğ½Ğ¸Ğµ 2
        //color = mix(texture(ourTexture1, vTextureCoordinate), vec4(vColor, 1.0), reg);
-       // Çàäàíèå 3
+       // Ğ—Ğ°Ğ´Ğ°Ğ½Ğ¸Ğµ 3
        color = mix(texture(ourTexture1, vTextureCoordinate), texture(ourTexture2, vTextureCoordinate), reg);
     }
 )";
@@ -175,7 +175,7 @@ void parseFile(std::string fileName) {
 }
 
 float reg = 0.05;
-// ğåãóëèğîâàíèå òåêñòóğ
+// Ñ€ĞµĞ³ÑƒĞ»Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸Ğµ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€
 void changeText(float regg) {
     if (reg + regg > 1 || reg + regg < 0)
         return;
@@ -189,7 +189,7 @@ int task_main(std::string objFilename) {
 
     window.setActive(true);
 
-    // Èíèöèàëèçàöèÿ glew
+    // Ğ˜Ğ½Ğ¸Ñ†Ğ¸Ğ°Ğ»Ğ¸Ğ·Ğ°Ñ†Ğ¸Ñ glew
     glewInit();
     parseFile(objFilename);
     Init();
@@ -224,16 +224,16 @@ int task_main(std::string objFilename) {
 }
 
 
-// Ïğîâåğêà îøèáîê OpenGL, åñëè åñòü òî âûâîä â êîíñîëü òèï îøèáêè
+// ĞŸÑ€Ğ¾Ğ²ĞµÑ€ĞºĞ° Ğ¾ÑˆĞ¸Ğ±Ğ¾Ğº OpenGL, ĞµÑĞ»Ğ¸ ĞµÑÑ‚ÑŒ Ñ‚Ğ¾ Ğ²Ñ‹Ğ²Ğ¾Ğ´ Ğ² ĞºĞ¾Ğ½ÑĞ¾Ğ»ÑŒ Ñ‚Ğ¸Ğ¿ Ğ¾ÑˆĞ¸Ğ±ĞºĞ¸
 void checkOpenGLerror(int place) {
     GLenum errCode;
-    // Êîäû îøèáîê ìîæíî ñìîòğåòü òóò
+    // ÃŠÃ®Ã¤Ã» Ã®Ã¸Ã¨Ã¡Ã®Ãª Ã¬Ã®Ã¦Ã­Ã® Ã±Ã¬Ã®Ã²Ã°Ã¥Ã²Ã¼ Ã²Ã³Ã²
     // https://www.khronos.org/opengl/wiki/OpenGL_Error
     if ((errCode = glGetError()) != GL_NO_ERROR)
         std::cout << "OpenGl error in " << place << "!: " << errCode << std::endl;
 }
 
-// Ôóíêöèÿ ïå÷àòè ëîãà øåéäåğà
+// Ğ¤ÑƒĞ½ĞºÑ†Ğ¸Ñ Ğ¿ĞµÑ‡Ğ°Ñ‚Ğ¸ Ğ»Ğ¾Ğ³Ğ° ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ°
 void ShaderLog(unsigned int shader)
 {
     int infologLen = 0;
@@ -264,7 +264,7 @@ void InitPositionBuffers()
 
     glGenBuffers(1, &VBO);
 
-    //Ïğèâÿçûâàåì VAO
+    //ĞŸÑ€Ğ¸Ğ²ÑĞ·Ñ‹Ğ²Ğ°ĞµĞ¼ VAO
     glBindVertexArray(VAO);
 
     auto i0 = glGetAttribLocation(Program, "vertexPosition");
@@ -278,18 +278,18 @@ void InitPositionBuffers()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), &vertices[0], GL_STATIC_DRAW);
 
-    // 3. Óñòàíàâëèâàåì óêàçàòåëè íà âåğøèííûå àòğèáóòû
-    // Àòğèáóò ñ êîîğäèíàòàìè
+    // 3. Ğ£ÑÑ‚Ğ°Ğ½Ğ°Ğ²Ğ»Ğ¸Ğ²Ğ°ĞµĞ¼ ÑƒĞºĞ°Ğ·Ğ°Ñ‚ĞµĞ»Ğ¸ Ğ½Ğ° Ğ²ĞµÑ€ÑˆĞ¸Ğ½Ğ½Ñ‹Ğµ Ğ°Ñ‚Ñ€Ğ¸Ğ±ÑƒÑ‚Ñ‹
+    // ĞÑ‚Ñ€Ğ¸Ğ±ÑƒÑ‚ Ñ ĞºĞ¾Ğ¾Ñ€Ğ´Ğ¸Ğ½Ğ°Ñ‚Ğ°Ğ¼Ğ¸
     glVertexAttribPointer(i0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-    // Àòğèáóò ñ öâåòîì
+    // ĞÑ‚Ñ€Ğ¸Ğ±ÑƒÑ‚ Ñ Ñ†Ğ²ĞµÑ‚Ğ¾Ğ¼
     glVertexAttribPointer(i1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-    // Àòğèáóò ñ òåêñòóğîé
+    // ĞÑ‚Ñ€Ğ¸Ğ±ÑƒÑ‚ Ñ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ğ¾Ğ¹
     glVertexAttribPointer(i2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 
     std::cout << i0 << " " << i1 << " " << i2 << std::endl;
     std::cout << vertices.size() << std::endl;
 
-    //Îòâÿçûâàåì VAO
+    //ĞÑ‚Ğ²ÑĞ·Ñ‹Ğ²Ğ°ĞµĞ¼ VAO
     glBindVertexArray(0);
     glDisableVertexAttribArray(i0);
     glDisableVertexAttribArray(i1);
@@ -298,32 +298,32 @@ void InitPositionBuffers()
 }
 
 void InitShader() {
-    // Ñîçäàåì âåğøèííûé øåéäåğ
+    // Ğ¡Ğ¾Ğ·Ğ´Ğ°ĞµĞ¼ Ğ²ĞµÑ€ÑˆĞ¸Ğ½Ğ½Ñ‹Ğ¹ ÑˆĞµĞ¹Ğ´ĞµÑ€
     GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
-    // Ïåğåäàåì èñõîäíûé êîä
+    // ĞŸĞµÑ€ĞµĞ´Ğ°ĞµĞ¼ Ğ¸ÑÑ…Ğ¾Ğ´Ğ½Ñ‹Ğ¹ ĞºĞ¾Ğ´
     glShaderSource(vShader, 1, &VertexShaderSource, NULL);
-    // Êîìïèëèğóåì øåéäåğ
+    // ĞšĞ¾Ğ¼Ğ¿Ğ¸Ğ»Ğ¸Ñ€ÑƒĞµĞ¼ ÑˆĞµĞ¹Ğ´ĞµÑ€
     glCompileShader(vShader);
     std::cout << "vertex shader \n";
     ShaderLog(vShader);
 
-    // Ñîçäàåì ôğàãìåíòíûé øåéäåğ
+    // Ğ¡Ğ¾Ğ·Ğ´Ğ°ĞµĞ¼ Ñ„Ñ€Ğ°Ğ³Ğ¼ĞµĞ½Ñ‚Ğ½Ñ‹Ğ¹ ÑˆĞµĞ¹Ğ´ĞµÑ€
     GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
-    // Ïåğåäàåì èñõîäíûé êîä
+    // ĞŸĞµÑ€ĞµĞ´Ğ°ĞµĞ¼ Ğ¸ÑÑ…Ğ¾Ğ´Ğ½Ñ‹Ğ¹ ĞºĞ¾Ğ´
     glShaderSource(fShader, 1, &FragShaderSource, NULL);
-    // Êîìïèëèğóåì øåéäåğ
+    // ĞšĞ¾Ğ¼Ğ¿Ğ¸Ğ»Ğ¸Ñ€ÑƒĞµĞ¼ ÑˆĞµĞ¹Ğ´ĞµÑ€
     glCompileShader(fShader);
     std::cout << "fragment shader \n";
     ShaderLog(fShader);
 
-    // Ñîçäàåì ïğîãğàììó è ïğèêğåïëÿåì øåéäåğû ê íåé
+    // Ğ¡Ğ¾Ğ·Ğ´Ğ°ĞµĞ¼ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼Ñƒ Ğ¸ Ğ¿Ñ€Ğ¸ĞºÑ€ĞµĞ¿Ğ»ÑĞµĞ¼ ÑˆĞµĞ¹Ğ´ĞµÑ€Ñ‹ Ğº Ğ½ĞµĞ¹
     Program = glCreateProgram();
     glAttachShader(Program, vShader);
     glAttachShader(Program, fShader);
 
-    // Ëèíêóåì øåéäåğíóş ïğîãğàììó
+    // Ğ›Ğ¸Ğ½ĞºÑƒĞµĞ¼ ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ½ÑƒÑ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼Ñƒ
     glLinkProgram(Program);
-    // Ïğîâåğÿåì ñòàòóñ ñáîğêè
+    // ĞŸÑ€Ğ¾Ğ²ĞµÑ€ÑĞµĞ¼ ÑÑ‚Ğ°Ñ‚ÑƒÑ ÑĞ±Ğ¾Ñ€ĞºĞ¸
     int link_ok;
     glGetProgramiv(Program, GL_LINK_STATUS, &link_ok);
     if (!link_ok)
@@ -359,22 +359,22 @@ void InitShader() {
 void InitTextures()
 {
     const char* filename = "texture1.png";
-    // Çàãğóæàåì òåêñòóğó èç ôàéëà
+    // Ğ—Ğ°Ğ³Ñ€ÑƒĞ¶Ğ°ĞµĞ¼ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ñƒ Ğ¸Ğ· Ñ„Ğ°Ğ¹Ğ»Ğ°
     if (!ourTexture1.loadFromFile(filename))
     {
-        // Íå âûøëî çàãğóçèòü êàğòèíêó
+        // ĞĞµ Ğ²Ñ‹ÑˆĞ»Ğ¾ Ğ·Ğ°Ğ³Ñ€ÑƒĞ·Ğ¸Ñ‚ÑŒ ĞºĞ°Ñ€Ñ‚Ğ¸Ğ½ĞºÑƒ
         return;
     }
-    // Òåïåğü ïîëó÷àåì openGL äåñêğèïòîğ òåêñòóğû
+    // Ğ¢ĞµĞ¿ĞµÑ€ÑŒ Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ openGL Ğ´ĞµÑĞºÑ€Ğ¸Ğ¿Ñ‚Ğ¾Ñ€ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ñ‹
     textureHandle1 = ourTexture1.getNativeHandle();
     
     filename = "gradient.jpg";
     if (!ourTexture2.loadFromFile(filename))
     {
-        // Íå âûøëî çàãğóçèòü êàğòèíêó
+        // ĞĞµ Ğ²Ñ‹ÑˆĞ»Ğ¾ Ğ·Ğ°Ğ³Ñ€ÑƒĞ·Ğ¸Ñ‚ÑŒ ĞºĞ°Ñ€Ñ‚Ğ¸Ğ½ĞºÑƒ
         return;
     }
-    // Òåïåğü ïîëó÷àåì openGL äåñêğèïòîğ òåêñòóğû
+    // Ğ¢ĞµĞ¿ĞµÑ€ÑŒ Ğ¿Ğ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ openGL Ğ´ĞµÑĞºÑ€Ğ¸Ğ¿Ñ‚Ğ¾Ñ€ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ñ‹
     textureHandle2 = ourTexture2.getNativeHandle();
     
 }
@@ -383,54 +383,54 @@ void Init() {
     InitShader();
     InitBuffers();
     InitTextures();
-    // Âêëş÷àåì ïğîâåğêó ãëóáèíû
+    // Ğ’ĞºĞ»ÑÑ‡Ğ°ĞµĞ¼ Ğ¿Ñ€Ğ¾Ğ²ĞµÑ€ĞºÑƒ Ğ³Ğ»ÑƒĞ±Ğ¸Ğ½Ñ‹
     glEnable(GL_DEPTH_TEST);
 }
 
 
 void Draw() {
 
-    // Óñòàíàâëèâàåì øåéäåğíóş ïğîãğàììó òåêóùåé
+    // Ğ£ÑÑ‚Ğ°Ğ½Ğ°Ğ²Ğ»Ğ¸Ğ²Ğ°ĞµĞ¼ ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ½ÑƒÑ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼Ñƒ Ñ‚ĞµĞºÑƒÑ‰ĞµĞ¹
     glUseProgram(Program);
 
     glUniform1f(Unif_reg, reg);
 
-    // Àêòèâèğóåì òåêñòóğíûé áëîê 0, äåëàòü ıòîãî íå îáÿçàòåëüíî, ïî óìîë÷àíèş
-    // è òàê àêòèâèğîâàí GL_TEXTURE0, ıòî íóæíî äëÿ èñïîëüçîâàíèÿ íåñêîëüêèõ òåêñòóğ
+    // ĞĞºÑ‚Ğ¸Ğ²Ğ¸Ñ€ÑƒĞµĞ¼ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ğ½Ñ‹Ğ¹ Ğ±Ğ»Ğ¾Ğº 0, Ğ´ĞµĞ»Ğ°Ñ‚ÑŒ ÑÑ‚Ğ¾Ğ³Ğ¾ Ğ½Ğµ Ğ¾Ğ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾, Ğ¿Ğ¾ ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ
+    // Ğ¸ Ñ‚Ğ°Ğº Ğ°ĞºÑ‚Ğ¸Ğ²Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½ GL_TEXTURE0, ÑÑ‚Ğ¾ Ğ½ÑƒĞ¶Ğ½Ğ¾ Ğ´Ğ»Ñ Ğ¸ÑĞ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ğ½Ğ¸Ñ Ğ½ĞµÑĞºĞ¾Ğ»ÑŒĞºĞ¸Ñ… Ñ‚ĞµĞºÑÑ‚ÑƒÑ€
     glActiveTexture(GL_TEXTURE0);
-    // Îá¸ğòêà SFML íà opengl ôóíêöèåé glBindTexture
+    // ĞĞ±Ñ‘Ñ€Ñ‚ĞºĞ° SFML Ğ½Ğ° opengl Ñ„ÑƒĞ½ĞºÑ†Ğ¸ĞµĞ¹ glBindTexture
     sf::Texture::bind(&ourTexture1);
-    // Â uniform êëàä¸òñÿ òåêñòóğíûé èíäåêñ òåêñòóğíîãî áëîêà (äëÿ GL_TEXTURE0 - 0, äëÿ GL_TEXTURE1 - 1 è òä)
+    // Ğ’ uniform ĞºĞ»Ğ°Ğ´Ñ‘Ñ‚ÑÑ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ğ½Ñ‹Ğ¹ Ğ¸Ğ½Ğ´ĞµĞºÑ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ğ½Ğ¾Ğ³Ğ¾ Ğ±Ğ»Ğ¾ĞºĞ° (Ğ´Ğ»Ñ GL_TEXTURE0 - 0, Ğ´Ğ»Ñ GL_TEXTURE1 - 1 Ğ¸ Ñ‚Ğ´)
     glUniform1i(unifTexture1, 0);
 
     
     glActiveTexture(GL_TEXTURE1);
-    // Îá¸ğòêà SFML íà opengl ôóíêöèåé glBindTexture
+    // ĞĞ±Ñ‘Ñ€Ñ‚ĞºĞ° SFML Ğ½Ğ° opengl Ñ„ÑƒĞ½ĞºÑ†Ğ¸ĞµĞ¹ glBindTexture
     sf::Texture::bind(&ourTexture2);
-    // Â uniform êëàä¸òñÿ òåêñòóğíûé èíäåêñ òåêñòóğíîãî áëîêà (äëÿ GL_TEXTURE0 - 0, äëÿ GL_TEXTURE1 - 1 è òä)
-    glUniform1i(unifTexture2, 1); //ÒÅÊÑÒÓĞÀ 2
+    // Ğ’ uniform ĞºĞ»Ğ°Ğ´Ñ‘Ñ‚ÑÑ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ğ½Ñ‹Ğ¹ Ğ¸Ğ½Ğ´ĞµĞºÑ Ñ‚ĞµĞºÑÑ‚ÑƒÑ€Ğ½Ğ¾Ğ³Ğ¾ Ğ±Ğ»Ğ¾ĞºĞ° (Ğ´Ğ»Ñ GL_TEXTURE0 - 0, Ğ´Ğ»Ñ GL_TEXTURE1 - 1 Ğ¸ Ñ‚Ğ´)
+    glUniform1i(unifTexture2, 1); //Ã’Ã…ÃŠÃ‘Ã’Ã“ÃÃ€ 2
     
 
-    // Ïğèâÿçûâàåì âàî
+    // ĞŸÑ€Ğ¸Ğ²ÑĞ·Ñ‹Ğ²Ğ°ĞµĞ¼ VAO
     glBindVertexArray(VAO);
-    // Ïåğåäàåì äàííûå íà âèäåîêàğòó(ğèñóåì)
+    // ĞŸĞµÑ€ĞµĞ´Ğ°ĞµĞ¼ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğµ Ğ½Ğ° Ğ²Ğ¸Ğ´ĞµĞ¾ĞºĞ°Ñ€Ñ‚Ñƒ(Ñ€Ğ¸ÑÑƒĞµĞ¼)
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     glBindVertexArray(0);
-    // Îòêëş÷àåì øåéäåğíóş ïğîãğàììó
+    // ĞÑ‚ĞºĞ»ÑÑ‡Ğ°ĞµĞ¼ ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ½ÑƒÑ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼Ñƒ
     glUseProgram(0);
     checkOpenGLerror(3);
 }
 
 
-// Îñâîáîæäåíèå øåéäåğîâ
+// ĞÑĞ²Ğ¾Ğ±Ğ¾Ğ¶Ğ´ĞµĞ½Ğ¸Ğµ ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ¾Ğ²
 void ReleaseShader() {
-    // Ïåğåäàâàÿ íîëü, ìû îòêëş÷àåì øåéäğíóş ïğîãğàììó
+    // ĞŸĞµÑ€ĞµĞ´Ğ°Ğ²Ğ°Ñ Ğ½Ğ¾Ğ»ÑŒ, Ğ¼Ñ‹ Ğ¾Ñ‚ĞºĞ»ÑÑ‡Ğ°ĞµĞ¼ ÑˆĞµĞ¹Ğ´Ñ€Ğ½ÑƒÑ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼Ñƒ
     glUseProgram(0);
-    // Óäàëÿåì øåéäåğíóş ïğîãğàììó
+    // Ğ£Ğ´Ğ°Ğ»ÑĞµĞ¼ ÑˆĞµĞ¹Ğ´ĞµÑ€Ğ½ÑƒÑ Ğ¿Ñ€Ğ¾Ğ³Ñ€Ğ°Ğ¼Ğ¼Ñƒ
     glDeleteProgram(Program);
 }
 
-// Îñâîáîæäåíèå áóôåğà
+// ĞÑĞ²Ğ¾Ğ±Ğ¾Ğ¶Ğ´ĞµĞ½Ğ¸Ğµ Ğ±ÑƒÑ„ĞµÑ€Ğ°
 void ReleaseVBO()
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
